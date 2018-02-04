@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1"/>
+	<title>Message | Home</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+<body>
+	<div class="container">
+		<h1>Message Service</h1><hr/>
+		<div th:each="m: ${messages}" class="well well-lg">
+			<span th:text="${m.text}"></span>
+		</div>
+		<span th:text="${paging}"></span>
+		<ul class="pager">
+		   <li><a th:href="@{/thymeleaf(page=${paging.previousPage},limit=${paging.limit})}">Previous</a></li>
+		   <li><a th:href="@{/thymeleaf(page=${paging.nextPage},limit=${paging.limit})}">Next</a></li>
+		</ul>
+	</div>
+</body>
+</html>

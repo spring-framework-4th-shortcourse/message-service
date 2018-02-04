@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1"/>
+	<title>Ajax Message | Home</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+<body>
+	<div class="container">
+		<h1>Message Service</h1><hr/>
+		<div id="messageBlog">
+			<div class="well well-lg">
+				<span>Hello</span>
+			</div>
+		</div>
+		<ul class="pager" id="pagingBlog">
+		   <li id="prev"><a href="#">Previous</a></li>
+		   <li id="next"><a href="#">Next</a></li>
+		</ul>
+	</div>
+	
+	<script th:inline="javascript" type="text/javascript">
+		$(document).ready(function(){
+			var page = 1, limit = 2;
+			
+			loadMessages();
+			
+			function loadMessages(){
+				$.ajax({
+					url: '/ajax/messages',
+					data: {
+						page: page,
+						limit: limit
+					},
+					success: function(response){
+						console.log(response);
+						renderMessages(response);
+					},
+					error: function(error){
+						console.log('error', error);
+					}
+				});
+			}
+			
+			function renderMessages(messages){
+				var html = ``;
+				messages.forEach(function(m){
+					html += `<div class="well well-lg">
+								<span>${m.text}</span>
+							</div>`;
+				});
+				$('#messageBlog').html(html);
+			}
+			
+			$('li#next').on('click', function(){
+				page++;
+				loadMessages();
+			});
+			$('li#prev').on('click', function(){
+				page--;
+				loadMessages();
+			});
+			
+		});
+	
+	</script>
+</body>
+</html>
